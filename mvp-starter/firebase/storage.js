@@ -29,3 +29,7 @@ export async function uploadImage(image, uid) {
   await uploadBytes(storageRef, image);
   return bucket;
 };
+
+export async function getDownloadURL(bucket) {
+  return await getStorageDownloadURL(ref(storage, bucket));
+}
