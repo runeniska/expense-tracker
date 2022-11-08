@@ -75,7 +75,8 @@ export default function Dashboard() {
   // Get receipts once user is logged in
   useEffect(async () => {
     if (authUser) {
-      setReceipts(await getReceipts(authUser.uid));
+      const unsubscribe = await getReceipts(authUser.uid, setReceipts, setIsLoadingReceipts);
+      return () => unsubscribe();
     }
   }, [authUser]);
 
@@ -84,9 +85,6 @@ export default function Dashboard() {
     setSnackbarMessage(isSuccess ? SUCCESS_MAP[receiptEnum] : ERROR_MAP[receiptEnum]);
     isSuccess ? setSuccessSnackbar(true) : setErrorSnackbar(true);
     setAction(RECEIPTS_ENUM.none);
-    if (isSuccess) {
-      setReceipts(await getReceipts(authUser.uid));
-    }
   }
 
   // Listen to changes for loading and authUser, redirect if needed

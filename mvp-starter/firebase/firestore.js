@@ -25,21 +25,24 @@ export async function addReceipt(uid, date, locationName, address, items, amount
   addDoc(collection(db, RECEIPTS_COLLECTION), { uid, date, locationName, address, items, amount, imageBucket });
 }
 
-export async function getReceipts(uid) {
-  const receipts = query(collection(db, RECEIPTS_COLLECTION), where("uid", "==", uid), orderBy("date", "desc"));
-  const querySnapshot = await getDocs(receipts);
+export async function getReceipts(uid, setReceipts, setIsLoadingReceipts) {
+  const receiptsQuery = query(collection(db, RECEIPTS_COLLECTION), where("uid", "==", uid), orderBy("date", "desc"));
 
-  const allReceipts = Promise.all(querySnapshot.docs.map(async doc => {
-    const receipt = doc.data();
-    return {
-      ...receipt,
-      date: receipt.date.toDate(),
-      id: doc.id,
-      imageUrl: await getDownloadURL(receipt.imageBucket)
+  const unsubscribe = onSnapshot(receiptsQuery, async (snapshot) => {
+    let allReceipts = [];
+    for (const documentSnapshot of snapshot.docs) {
+      const receipt = documentSnapshot.data();
+      allReceipts.push({
+        ...receipt,
+        date: receipt.date.toDate(),
+        id: documentSnapshot.id,
+        imageUrl: await getDownloadURL(receipt.imageBucket),
+      });
     }
-  }));
-
-  return allReceipts;
+    setReceipts(allReceipts);
+    setIsLoadingReceipts(false);
+  })
+  return unsubscribe;
 }
 
 export async function updateReceipt(docId, uid, date, locationName, address, items, amount, imageBucket) {
