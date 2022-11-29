@@ -1,12 +1,12 @@
 # Expense Tracker
 
-Expense tracker based on https://github.com/firebaseextended/expense-tracker. Take photo of your receipt and upload it to the expence tracker to keep your expence records safe in one place.
+Expense tracker based on https://github.com/firebaseextended/expense-tracker. Take photo of your receipt and upload it to the expense tracker to keep your expense records safe in one place.
 
 ## Usage
 
 ### MVP
 
-MVP of the expence tracker application includes CRUD operations for expences through GUI. Host the application with the following commands:
+MVP of the expense tracker application includes CRUD operations for expenses through GUI. Host the application with the following commands:
 
 ```
 cd mvp-starter
