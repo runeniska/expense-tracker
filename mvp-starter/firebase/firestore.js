@@ -48,3 +48,7 @@ export async function getReceipts(uid, setReceipts, setIsLoadingReceipts) {
 export async function updateReceipt(docId, uid, date, locationName, address, items, amount, imageBucket) {
   setDoc(doc(db, RECEIPTS_COLLECTION, docId), { uid, date, locationName, address, items, amount, imageBucket });
 }
+
+export function deleteReceipt(id) {
+  deleteDoc(doc(db, RECEIPTS_COLLECTION, id));
+}
