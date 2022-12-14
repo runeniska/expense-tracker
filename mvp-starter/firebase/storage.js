@@ -18,9 +18,7 @@
 import { format } from 'date-fns';
 import { deleteObject, getDownloadURL as getStorageDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from './firebase';
-
-const BUCKET_URL = "gs://expense-tracker-d07b6.appspot.com";
-
+import { BUCKET_URL } from '../../.env';
 
 export async function uploadImage(image, uid) {
   const formattedDate = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'");
